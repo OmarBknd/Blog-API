@@ -2,7 +2,11 @@ const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const postGetAll = async () => {
-    const posts = await prisma.post.findMany({});
+    const posts = await prisma.post.findMany({
+        include: {
+            comments: true,
+        }
+    });
     return posts;
 }
 
