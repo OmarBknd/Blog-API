@@ -1,4 +1,10 @@
 const postModel = require('../models/postModel');
+const {body, validationResult} = require('express-validator');
+
+const validateResults = [
+    body('title').notEmpty().withMessage('Title is required'),
+    body('content').notEmpty().withMessage('Content is required'),
+];
 
 const postGetAll = async (req, res) => {
     try {
@@ -9,16 +15,20 @@ const postGetAll = async (req, res) => {
     }
 }
 
-const postCreate = async (req, res) => {
+const postCreate = [validateResults, async (req, res) => {
     const {title, content, authorId} = req.body;
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()});
+        }
         const post = await postModel.postCreate(title, content, authorId);
         res.status(201).json({message: 'Post created successfully', post});
     } catch (error) {
         res.status(500).json({message: error.message});
     }
 }
-
+]
 const postUpdate = async (req, res) => {
     const {id} = req.params;
     const {title, content} = req.body;
