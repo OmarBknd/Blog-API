@@ -8,6 +8,7 @@ const profileController = require('../controllers/profileController')
 
 router.get('/', postController.postGetAll);
 router.get('/profile/:id', passport.authenticate('jwt', {session: false}), profileController.userProfile)
+router.put('/profile/:id/password', passport.authenticate('jwt', {session: false}), profileController.userUpdatePassword)
 
 
 

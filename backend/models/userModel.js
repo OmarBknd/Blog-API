@@ -22,6 +22,18 @@ const userCreate = async (firstName, lastName, email, password) => {
    return user;
 }
 
+const userUpdatePassword = async(id, password) => {
+    const user = await prisma.user.update({
+        where:{
+            id:id
+        },
+        data:{
+            password:password
+        }
+    })
+    return user
+}
+
 const userFindByEmail = async (email) => {
     const user = await prisma.user.findUnique({
         where: {
@@ -42,4 +54,4 @@ const userFindById = async (id) => {
 
 
 
-module.exports = {userCreate, userFindByEmail, userFindById, userGetAll};
+module.exports = {userCreate, userFindByEmail, userFindById, userGetAll, userUpdatePassword};
