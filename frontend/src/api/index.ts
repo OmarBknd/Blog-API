@@ -6,10 +6,22 @@ const getPosts = async () => {
 }
 
 const getProfile = async (userId: string) => {
-    const response = await api.get(`/profile/${userId}`)
+    const token = localStorage.getItem('token')
+    const response = await api.get(`/profile/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }})
     console.log(userId);
     
     return response.data
 }
 
-export {getPosts, getProfile}
+const changeUserPassword = async (userId:string, newPassword: string) => {
+    const token = localStorage.getItem('token')
+    const response = await api.put(`/profile/${userId}/password`,{
+        password : newPassword
+    }, {
+        
+        headers:{Authorization: `Bearer ${token}`}
+    })
+    return response.data
+}
+export {getPosts, getProfile, changeUserPassword}
