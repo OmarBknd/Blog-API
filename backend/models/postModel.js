@@ -4,7 +4,13 @@ const prisma = new PrismaClient();
 const postGetAll = async () => {
     const posts = await prisma.post.findMany({
         include: {
-            comments: true,
+            
+            author: { select: { firstName: true, lastName: true },},
+            comments: { 
+                include: { 
+                  author: { select: { firstName: true, lastName: true, createdAt: true } } 
+                } 
+              }
         }
     });
     return posts;

@@ -13,7 +13,7 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), postCo
 
 //Comments
 
-router.post('/comment/create', passport.authenticate('jwt', {session: false}), commentController.commentCreate);
+router.post('/:postId/comment/create', passport.authenticate('jwt', {session: false}), commentController.commentCreate);
 router.delete('/comment/delete/:id', passport.authenticate('jwt', {session: false}), commentController.commentDelete);
 
 module.exports = router;
