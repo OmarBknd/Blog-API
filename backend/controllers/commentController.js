@@ -29,9 +29,21 @@ const commentCreate = [
   ];
   
 const commentDelete = async (req, res) => {
-    const {id} = req.params;
-    const comment = await commentModel.commentDelete(id);
+  try{
+    const {commentId} = req.params;
+    const authorId = req.user.id
+    const comment = await commentModel.findCommentById(commentId);
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+  }
+
+  if (comment.authorId !== authorId) {
+      return res.status(403).json({ message: "Unauthorized to delete this comment" });
+  }
+    await commentModel.commentDelete(commentId)
     res.json(comment);
-}
+}catch (error) {
+        res.status(500).json({ message: error.message });
+    }}
 
 module.exports = { commentCreate, commentDelete};

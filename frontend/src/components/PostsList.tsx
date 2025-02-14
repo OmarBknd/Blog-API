@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getPosts } from "../api";
 import CommentCreate from "./Comment";
+import CommentDelete from "./CommentDelete";
 
 const PostList = () => {
   type Comment = {
@@ -9,6 +10,7 @@ const PostList = () => {
     author: {
       firstName: string;
       lastName: string;
+      id: string;
     };
   };
 
@@ -20,6 +22,7 @@ const PostList = () => {
     author: {
       firstName: string;
       lastName: string;
+      
     };
   };
 
@@ -68,6 +71,17 @@ const PostList = () => {
                       <span className="text-xs text-gray-500 mt-1 block">
                         - {comment.author.firstName} {comment.author.lastName}
                       </span>
+                      <CommentDelete 
+      authorId={comment.author.id}
+      commentId={comment.id} 
+      onDelete={() => {
+        setPosts((prevPosts) => 
+          prevPosts.map(p => 
+            p.id === post.id ? { ...p, comments: p.comments.filter(c => c.id !== comment.id) } : p
+          )
+        );
+      }} 
+    />
                     </li>
                   ))}
                 </ul>
@@ -75,6 +89,7 @@ const PostList = () => {
             )}
             <div className="mt-6">
               <CommentCreate postId={post.id} />
+              
             </div>
           </li>
         ))}

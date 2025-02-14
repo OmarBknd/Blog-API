@@ -1,7 +1,14 @@
 const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 
-
+const findCommentById = async (id)=>{
+    const comment = await prisma.comment.findUnique({
+        where:{
+            id:id
+        }
+    })
+    return comment
+}
 
 const commentCreate = async (content,authorId, postId) => {
     const comment = await prisma.comment.create({
@@ -23,4 +30,4 @@ const commentDelete = async (id) => {
     return comment;
 }
 
-module.exports = {commentCreate, commentDelete};
+module.exports = {findCommentById,commentCreate, commentDelete};

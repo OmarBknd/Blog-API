@@ -8,7 +8,7 @@ const postGetAll = async () => {
             author: { select: { firstName: true, lastName: true },},
             comments: { 
                 include: { 
-                  author: { select: { firstName: true, lastName: true, createdAt: true } } 
+                  author: { select: { firstName: true, lastName: true, id:true, } } 
                 } 
               }
         }
