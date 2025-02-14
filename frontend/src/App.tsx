@@ -1,5 +1,7 @@
+import CommentCreate from "./components/Comment"
 import Navbar from "./components/Navbar"
 import PasswordChange from "./components/PasswordChange"
+import PostCreate from "./components/PostCreate"
 import Home from "./pages/home"
 import Profile from "./pages/Profile"
 import SignIn from "./pages/SignIn"
@@ -15,6 +17,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/profile/:id" element={<Profile/>}/>
         <Route path="/profile/:id/change-password" element={<PasswordChange/>}/>
+        <Route path="/post/create" element={<PostCreate/>}/>
+        <Route path="/post/:postId/comment/create" element={<CommentCreate/>}/>
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
