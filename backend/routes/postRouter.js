@@ -11,6 +11,9 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 router.post('/create', passport.authenticate('jwt', {session: false}), postController.postCreate);
 router.put('/update/:id', passport.authenticate('jwt', {session: false}), postController.postUpdate);
 
+//Get posts by the user
+router.get('/user/:id',postController.postGetByUserId)
+
 //Comments
 
 router.post('/:postId/comment/create', passport.authenticate('jwt', {session: false}), commentController.commentCreate);

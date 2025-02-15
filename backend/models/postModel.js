@@ -15,7 +15,21 @@ const postGetAll = async () => {
     });
     return posts;
 }
-
+const postGetByUserId = async(authorId) =>{
+    const post = await prisma.post.findMany({
+        where:{
+            authorId:authorId
+        },
+        include:{
+            comments:true,
+            author:true,
+        },
+        orderBy:{
+            createdAt: 'desc',
+        }
+    })
+    return post
+}
 const postCreate = async (title, content, authorId) => {
     const post = await prisma.post.create({
         data: {
@@ -40,4 +54,4 @@ const postUpdate = async (postId, title, content) => {
     return post;
 }
 
-module.exports = {postGetAll, postCreate, postUpdate};
+module.exports = {postGetAll, postCreate, postUpdate, postGetByUserId};
