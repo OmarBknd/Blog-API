@@ -18,11 +18,16 @@ const postGetAll = async () => {
 const postGetByUserId = async(authorId) =>{
     const post = await prisma.post.findMany({
         where:{
-            authorId:authorId
+            authorId
         },
-        include:{
-            comments:true,
-            author:true,
+        include: {
+            
+            author: { select: { firstName: true, lastName: true },},
+            comments: { 
+                include: { 
+                  author: { select: { firstName: true, lastName: true, id:true, } } 
+                } 
+              }
         },
         orderBy:{
             createdAt: 'desc',
