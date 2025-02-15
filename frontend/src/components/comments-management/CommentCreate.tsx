@@ -14,30 +14,23 @@ const CommentCreate = ({postId}: {postId : string}) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Validate content
-    if (!content.trim()) {
-      setErrorMessage("Comment content cannot be empty.");
-      return;
-    }
-
-    // Ensure postId is available
+    
     if (!postId) {
       setErrorMessage("Error: No post ID found.");
       return;
     }
 
-    const commentData = { content }; // Remove authorId
+    const commentData = { content }; 
 
     try {
       setIsSubmitting(true);
-      setErrorMessage(""); // Clear previous errors
+      setErrorMessage(""); 
 
       const response = await commentCreate(commentData, postId);
       console.log("Comment created successfully:", response);
 
       setSuccessMessage("Comment created successfully!");
-      setContent(""); // Clear input field
+      setContent(""); 
     } catch (error) {
       console.error("Failed to create comment:", error);
       setErrorMessage("Failed to create comment. Please try again.");
@@ -58,7 +51,7 @@ const CommentCreate = ({postId}: {postId : string}) => {
             value={content}
             onChange={(e) => {
               setContent(e.target.value);
-              setSuccessMessage(""); // Reset success message on new input
+              setSuccessMessage(""); 
             }}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             rows={4}

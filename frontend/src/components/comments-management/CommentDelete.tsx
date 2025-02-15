@@ -3,18 +3,18 @@ import { commentDelete } from "../../api/post";
 
 type CommentDeleteProps = {
   commentId: string;
-  authorId: string; // The ID of the comment creator
-  onDelete: () => void; // Callback to update UI after deletion
+  authorId: string; 
+  onDelete: () => void; 
 };
 
 const CommentDelete = ({ commentId, authorId, onDelete }: CommentDeleteProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState("");
-  const [isAuthor, setIsAuthor] = useState(false); // Check if logged-in user is the author
+  const [isAuthor, setIsAuthor] = useState(false); 
 
   useEffect(() => {
     const loggedInUserId = localStorage.getItem("userId");
-    setIsAuthor(loggedInUserId === authorId); // Compare logged-in user with comment creator
+    setIsAuthor(loggedInUserId === authorId); 
   }, [authorId]);
 
   const handleDelete = async () => {
@@ -26,7 +26,7 @@ const CommentDelete = ({ commentId, authorId, onDelete }: CommentDeleteProps) =>
 
     try {
       await commentDelete(commentId);
-      onDelete(); // Notify parent component to update the UI
+      onDelete(); 
     } catch (error) {
       console.error("Error deleting comment:", error);
       setError("Failed to delete comment. Please try again.");
@@ -35,7 +35,7 @@ const CommentDelete = ({ commentId, authorId, onDelete }: CommentDeleteProps) =>
     }
   };
 
-  if (!isAuthor) return null; // Hide button if user is not the author
+  if (!isAuthor) return null;
 
   return (
     <div>
