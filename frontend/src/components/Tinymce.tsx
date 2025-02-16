@@ -1,64 +1,44 @@
-import { useRef, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import type { Editor as TinyMCEEditor } from "tinymce";
 
-interface TinyMCEProps {
+
+type TinymceProps ={
   value: string;
   onChange: (content: string) => void;
 }
 
-const Tinymce = ({ value, onChange }: TinyMCEProps) => {
-  const editorRef = useRef<TinyMCEEditor | null>(null);
 
-  
-  useEffect(() => {
-    if (editorRef.current && editorRef.current.getContent() !== value) {
-      editorRef.current.setContent(value);
-    }
-  }, [value]);
+const Tinymce = ({ value, onChange }: TinymceProps) => {
+  //const editorRef = useRef<any>(null);
 
   return (
-    <Editor
-      apiKey="5jiijuzpwlvt73jppjtioqjvsstty8zajoz9hat046ymzplp"
-      onInit={(_, editor) => {
-        editorRef.current = editor;
-        editor.setContent(value); 
-      }}
-      onEditorChange={(newContent) => {
-        if (editorRef.current) {
-          onChange(newContent); 
-        }
-      }}
-      init={{
-        height: 500,
-        menubar: false,
-        plugins: [
-          "advlist",
-          "autolink",
-          "lists",
-          "link",
-          "image",
-          "charmap",
-          "preview",
-          "anchor",
-          "searchreplace",
-          "visualblocks",
-          "code",
-          "fullscreen",
-          "insertdatetime",
-          "media",
-          "table",
-          "help",
-          "wordcount",
-        ],
-        toolbar:
-          "undo redo | blocks | " +
-          "bold italic forecolor | alignleft aligncenter " +
-          "alignright alignjustify | bullist numlist outdent indent | " +
-          "removeformat | help",
-        content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-      }}
-    />
+    <div className="w-full">
+      <Editor
+        apiKey="5jiijuzpwlvt73jppjtioqjvsstty8zajoz9hat046ymzplp"
+        value={value}
+        onEditorChange={(newContent) => onChange(newContent)}
+        
+        init={{
+          height: 500,
+          menubar: false,
+          plugins: [
+            "advlist",
+            "autolink",
+            "lists",
+            "link",
+            "image",
+            "charmap",
+            "preview",
+            "anchor",
+            "searchreplace",
+          ],
+          toolbar:
+            "undo redo | formatselect | " +
+            "bold italic | alignleft aligncenter " +
+            "alignright alignjustify | bullist numlist | " 
+            
+        }}
+      />
+    </div>
   );
 };
 
