@@ -19,10 +19,7 @@ const Profile = () => {
   );
 
  
-  useEffect(() => {
-    console.log("User Posts:", userPosts);
-  }, [userPosts]);
-
+ 
  
   useEffect(() => {
     if (!id) return;
