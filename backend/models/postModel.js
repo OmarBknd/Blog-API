@@ -1,11 +1,19 @@
 const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 
+
+const findPostById = async (postId) => {
+    const post = await prisma.post.findUnique({
+        where:{id:postId}
+    })
+    return post
+}
+
 const postGetAll = async () => {
     const posts = await prisma.post.findMany({
         include: {
             
-            author: { select: { firstName: true, lastName: true },},
+            author: { select: { firstName: true, lastName: true, id:true },},
             comments: { 
                 include: { 
                   author: { select: { firstName: true, lastName: true, id:true, } } 
@@ -49,14 +57,14 @@ const postCreate = async (title, content, authorId) => {
 const postUpdate = async (postId, title, content) => {
     const post = await prisma.post.update({
         where: {
-            id: postId
+             id:postId
         },
         data: {
-            title: title,
-            content: content
+            title,
+            content
         }
     })
     return post;
 }
 
-module.exports = {postGetAll, postCreate, postUpdate, postGetByUserId};
+module.exports = {findPostById, postGetAll, postCreate, postUpdate, postGetByUserId};

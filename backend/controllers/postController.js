@@ -41,10 +41,15 @@ const postCreate = [validateResults, async (req, res) => {
 }
 ]
 const postUpdate = async (req, res) => {
-    const {id} = req.params;
+    const {postId} = req.params;
     const {title, content} = req.body;
+    const userId = req.user.id
     try {
-        const post = await postModel.postUpdate(id, title, content);
+        const userPost = await postModel.findPostById(postId)
+        if (userPost.authorId !== userId) {
+            return res.status(403).json({ message: "Unauthorized to update this post" });
+        }
+        const post = await postModel.postUpdate(postId, title, content);
         res.status(200).json({message: 'Post updated successfully', post});
     } catch (error) {
         res.status(500).json({message: error.message});
