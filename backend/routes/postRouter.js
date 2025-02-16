@@ -19,5 +19,6 @@ router.get('/user/:id',postController.postGetByUserId)
 
 router.post('/:postId/comment/create', passport.authenticate('jwt', {session: false}), commentController.commentCreate);
 router.delete('/comment/delete/:commentId', passport.authenticate('jwt', {session: false}), commentController.commentDelete);
+router.put('/comment/update/:commentId', passport.authenticate('jwt', {session: false}), commentController.commentUpdate);
 
 module.exports = router;

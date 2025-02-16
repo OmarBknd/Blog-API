@@ -46,4 +46,20 @@ const commentDelete = async (req, res) => {
         res.status(500).json({ message: error.message });
     }}
 
-module.exports = { commentCreate, commentDelete};
+const commentUpdate = async (req, res) => {
+    const {commentId} = req.params;
+    const {content} = req.body;
+    const userId = req.user.id
+    try {
+        const userComment = await commentModel.findCommentById(commentId)
+        if (userComment.authorId !== userId) {
+            return res.status(403).json({ message: "Unauthorized to update this comment" });
+        }
+        const comment = await commentModel.commentUpdate(commentId, content);
+        res.status(200).json({message: 'Comment updated successfully', comment});
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}    
+
+module.exports = { commentCreate, commentDelete, commentUpdate};

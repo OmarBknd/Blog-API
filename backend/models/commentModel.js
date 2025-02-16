@@ -30,4 +30,12 @@ const commentDelete = async (id) => {
     return comment;
 }
 
-module.exports = {findCommentById,commentCreate, commentDelete};
+const commentUpdate = async(commentId, content) =>{
+    const comment = await prisma.comment.update({
+        where:{id:commentId},
+        data:{content}
+    })
+    return comment
+}
+
+module.exports = {findCommentById,commentCreate, commentDelete, commentUpdate};
