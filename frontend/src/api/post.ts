@@ -48,4 +48,17 @@ const postUpdate = async(postId :string, postData:Post) =>{
     }
 }
 
-export  {postCreate, postGetByUserId, postUpdate }
+const postDelete = async (postId: string) => {
+    try{
+        const token = localStorage.getItem('token')
+        const response = await api.delete(`/post/delete/${postId}`,{
+            headers: {Authorization:`Bearer ${token}`}
+
+        })
+        return response.data
+    }catch (error) {
+        console.error('Error deleting post', error);
+}
+}
+
+export  {postCreate, postGetByUserId, postUpdate, postDelete }

@@ -2,15 +2,18 @@ import CommentCreate from "../comments-management/CommentCreate";
 import CommentDelete from "../comments-management/CommentDelete";
 import { useNavigate } from "react-router-dom";
 import { Post } from "../../types";
+import PostDelete from "./PostDelete";
 
 
 
 type PostCardProps = {
   post: Post;
   onCommentDelete: (postId: string, commentId: string) => void;
+  onPostDelete: (postId: string) => void;
 };
 
-const PostCard = ({ post, onCommentDelete }: PostCardProps) => {
+
+const PostCard = ({ post, onPostDelete, onCommentDelete }: PostCardProps) => {
   const userId = localStorage.getItem('userId')
   const navigate = useNavigate()
   
@@ -18,6 +21,11 @@ const PostCard = ({ post, onCommentDelete }: PostCardProps) => {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+      <PostDelete
+      authorId={post.author.id}
+      postId={post.id}
+      onDelete={()=>onPostDelete(post.id)}
+      />
       <h3 className="text-2xl font-semibold text-gray-900 mb-4">{post.title}</h3>
       <p className="text-gray-700 text-lg leading-relaxed">{post.content}</p>
       <span className="block mt-4 text-sm text-gray-600">
