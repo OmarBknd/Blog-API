@@ -67,4 +67,11 @@ const postUpdate = async (postId, title, content) => {
     return post;
 }
 
-module.exports = {findPostById, postGetAll, postCreate, postUpdate, postGetByUserId};
+const postDelete = async (id) =>{
+    const post = await prisma.post.delete({
+        where:{id:id}
+    })
+    return post
+}
+
+module.exports = {findPostById, postGetAll, postCreate, postUpdate, postDelete, postGetByUserId};

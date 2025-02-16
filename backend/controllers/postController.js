@@ -56,4 +56,19 @@ const postUpdate = async (req, res) => {
     }
 }
 
-module.exports = {postGetAll, postCreate, postUpdate, postGetByUserId, };
+const postDelete = async(req,res) => {
+    const {postId} = req.params
+    const authorId = req.user.id
+    try{
+        const userPost = await postModel.findPostById(postId)
+        if(userPost.authorId !== authorId){
+            res.status(403).json({message:"Unauthorized to delete this post"})
+        }
+        const post = await postModel.postDelete(postId)
+        res.status(200).json({message: 'Post deleted successfully', post});
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
+
+module.exports = {postGetAll, postCreate, postUpdate, postDelete, postGetByUserId, };

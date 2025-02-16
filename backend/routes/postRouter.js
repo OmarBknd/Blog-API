@@ -10,6 +10,7 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 
 router.post('/create', passport.authenticate('jwt', {session: false}), postController.postCreate);
 router.put('/update/:postId', passport.authenticate('jwt', {session: false}), postController.postUpdate);
+router.delete('/delete/:postId', passport.authenticate('jwt', {session: false}), postController.postDelete);
 
 //Get posts by the user
 router.get('/user/:id',postController.postGetByUserId)
