@@ -9,7 +9,7 @@ const signInFetch = async (userData: User) => {
     try { 
         console.log("Sending data:", userData);  
         const response = await api.post('/signin', userData);
-        console.log("Login successful! Response:", response.data);  // ✅ Debug this
+        console.log("Login successful! Response:", response.data);
         return response.data;
     } catch (error) {
         if (error instanceof AxiosError){ 
