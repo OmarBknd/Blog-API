@@ -30,7 +30,7 @@ const postGetByUserId = async(authorId) =>{
         },
         include: {
             
-            author: { select: { firstName: true, lastName: true },},
+            author: { select: { firstName: true, lastName: true, id:true },},
             comments: { 
                 include: { 
                   author: { select: { firstName: true, lastName: true, id:true, } } 
