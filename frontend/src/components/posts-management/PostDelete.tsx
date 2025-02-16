@@ -1,22 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { postDelete } from "../../api/post";
 
 type PostDeleteProps = {
   postId: string;
-  authorId: string; 
   onDelete: () => void; 
 };
 
-const PostDelete = ({ postId, authorId, onDelete }: PostDeleteProps) => {
+const PostDelete = ({ postId, onDelete }: PostDeleteProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState("");
-  const [isAuthor, setIsAuthor] = useState(false); 
-
-  useEffect(() => {
-    const loggedInUserId = localStorage.getItem("userId");
-    setIsAuthor(loggedInUserId === authorId); 
-  }, [authorId]);
-
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this Post?");
@@ -36,8 +28,6 @@ const PostDelete = ({ postId, authorId, onDelete }: PostDeleteProps) => {
     }
   };
 
-  if (!isAuthor) return null;
- 
   return (
     <div>
       {error && <p className="text-red-500 text-sm">{error}</p>}
