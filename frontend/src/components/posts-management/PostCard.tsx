@@ -70,14 +70,12 @@ const PostCard = ({ post, onPostDelete, onCommentDelete }: PostCardProps) => {
                   commentId={comment.id}
                   onDelete={() => onCommentDelete(post.id, comment.id)}
                 />
+                {isAuthor &&
                 <CommentUpdate
-  commentId={comment.id}
-  initialContent={comment.content} // Pass the existing comment content
-  onUpdate={(updatedContent) => {
-    // Handle the updated content (e.g., update the state or make an API call)
-    console.log("Updated Comment:", updatedContent);
-  }}
-/>
+                  commentId={comment.id}
+                  initialContent={comment.content} 
+                  onUpdate={(updatedContent) =>  updatedContent}
+                />}
               </li>
             ))}
           </ul>
