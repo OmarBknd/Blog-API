@@ -3,6 +3,7 @@ import { Post } from "../../types";
 import PostDelete from "./PostDelete";
 import CommentCreate from "../comments-management/CommentCreate";
 import CommentDelete from "../comments-management/CommentDelete";
+import CommentUpdate from "../comments-management/CommentUpdate";
 
 type PostCardProps = {
   post: Post;
@@ -69,6 +70,14 @@ const PostCard = ({ post, onPostDelete, onCommentDelete }: PostCardProps) => {
                   commentId={comment.id}
                   onDelete={() => onCommentDelete(post.id, comment.id)}
                 />
+                <CommentUpdate
+  commentId={comment.id}
+  initialContent={comment.content} // Pass the existing comment content
+  onUpdate={(updatedContent) => {
+    // Handle the updated content (e.g., update the state or make an API call)
+    console.log("Updated Comment:", updatedContent);
+  }}
+/>
               </li>
             ))}
           </ul>
