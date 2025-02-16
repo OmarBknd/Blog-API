@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { commentDelete } from "../../api/post";
+import { commentDelete } from "../../api/comment";
 
 type CommentDeleteProps = {
   commentId: string;

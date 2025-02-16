@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { commentCreate } from "../../api/post";
+import { commentCreate } from "../../api/comment";
 
 
 const CommentCreate = ({postId}: {postId : string}) => {
