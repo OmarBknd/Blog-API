@@ -1,37 +1,39 @@
-import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProfile } from "../api/index";
+import { getProfile } from "../api";
 import { postGetByUserId } from "../api/post";
+import { usePost } from "../hooks/usePost";
 import PostCard from "../components/posts-management/PostCard";
-import { Post } from "../types"; 
+import { useState, useEffect } from "react";
 
 const Profile = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  
 
-  type User = {
-    firstName: string;
-    lastName: string;
-  };
-
+  type User = { firstName: string; lastName: string };
   const [user, setUser] = useState<User | null>(null);
-  const [userPosts, setUserPosts] = useState<Post[]>([]);
 
+ 
+  const { posts: userPosts, handleCommentDelete, handlePostDelete } = usePost(() =>
+    postGetByUserId(id!)
+  );
+
+ 
+  useEffect(() => {
+    console.log("User Posts:", userPosts);
+  }, [userPosts]);
+
+ 
   useEffect(() => {
     if (!id) return;
-
     const fetchUserData = async () => {
       try {
         const profileData = await getProfile(id);
         setUser(profileData.user);
-
-        const userPostsData = await postGetByUserId(id);
-        setUserPosts(userPostsData.posts);
       } catch (error) {
-        console.error("Error fetching profile or user posts:", error);
+        console.error("Error fetching profile:", error);
       }
     };
-
     fetchUserData();
   }, [id]);
 
@@ -54,14 +56,17 @@ const Profile = () => {
         <p className="text-white text-lg font-semibold">Loading user data...</p>
       )}
 
-     
       <div className="max-w-4xl w-full">
         <h2 className="text-2xl font-bold text-white mb-4 text-center">Your Posts</h2>
         {userPosts.length > 0 ? (
           <ul className="space-y-8">
             {userPosts.map((post) => (
               <li key={post.id}>
-                <PostCard post={post} onCommentDelete={() => {}} />
+                <PostCard
+                  post={post}
+                  onCommentDelete={handleCommentDelete}
+                  onPostDelete={handlePostDelete}
+                />
               </li>
             ))}
           </ul>
