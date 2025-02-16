@@ -1,10 +1,8 @@
-import CommentCreate from "../comments-management/CommentCreate";
-import CommentDelete from "../comments-management/CommentDelete";
 import { useNavigate } from "react-router-dom";
 import { Post } from "../../types";
 import PostDelete from "./PostDelete";
-
-
+import CommentCreate from "../comments-management/CommentCreate";
+import CommentDelete from "../comments-management/CommentDelete";
 
 type PostCardProps = {
   post: Post;
@@ -12,35 +10,47 @@ type PostCardProps = {
   onPostDelete: (postId: string) => void;
 };
 
-
 const PostCard = ({ post, onPostDelete, onCommentDelete }: PostCardProps) => {
-  const userId = localStorage.getItem('userId')
-  const navigate = useNavigate()
-  
+  const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
 
+  // Check if the current user is the author of the post
+  const isAuthor = post.author && post.author.id === userId;
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-      <PostDelete
-      authorId={post.author.id}
-      postId={post.id}
-      onDelete={()=>onPostDelete(post.id)}
-      />
+      
+      {isAuthor && (
+        <PostDelete
+          postId={post.id}
+          onDelete={() => onPostDelete(post.id)} 
+        />
+      )}
+
       <h3 className="text-2xl font-semibold text-gray-900 mb-4">{post.title}</h3>
       <p className="text-gray-700 text-lg leading-relaxed">{post.content}</p>
-      <span className="block mt-4 text-sm text-gray-600">
-        By{" "}
-        <b className="text-gray-900">
-          {post.author.firstName} {post.author.lastName}
-        </b>
-      </span>
-      {post.author.id === userId &&  <button
-        onClick={() => navigate(`/post/update/${post.id}`)}
-        className="mt-4 px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-      >
-        Edit
-      </button>}
+
+      
+      {post.author && (
+        <span className="block mt-4 text-sm text-gray-600">
+          By{" "}
+          <b className="text-gray-900">
+            {post.author.firstName} {post.author.lastName}
+          </b>
+        </span>
+      )}
+
      
+      {isAuthor && (
+        <button
+          onClick={() => navigate(`/post/update/${post.id}`)}
+          className="mt-4 px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+      )}
+
+      
       {post.comments.length > 0 && (
         <div className="mt-6">
           <h4 className="text-gray-800 font-semibold text-xl mb-3">Comments:</h4>
