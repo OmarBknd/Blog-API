@@ -32,5 +32,17 @@ const commentDelete = async( commentId:string) =>{
     }
 }
 
+const commentUpdate = async(commentId :string, commentData:Comment) =>{
+    try{
+        const token = localStorage.getItem('token')
+        const response = await api.put(`/post/comment/update/${commentId}`,commentData,{
+            headers: {Authorization:`Bearer ${token}`}
+        })
+       return response.data
+    }catch (error) {
+        console.error('Error updating comment', error);
+     
+    }
+}
 
-export {commentCreate, commentDelete,}
+export {commentCreate, commentDelete, commentUpdate}
