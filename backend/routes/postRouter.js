@@ -7,7 +7,7 @@ const commentController = require('../controllers/commentController');
 router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     res.send('Protected Route');
 });
-
+router.get('/:postId', postController.postGetById);
 router.post('/create', passport.authenticate('jwt', {session: false}), postController.postCreate);
 router.put('/update/:postId', passport.authenticate('jwt', {session: false}), postController.postUpdate);
 router.delete('/delete/:postId', passport.authenticate('jwt', {session: false}), postController.postDelete);

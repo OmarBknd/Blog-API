@@ -6,6 +6,17 @@ const validateResults = [
     body('content').notEmpty().withMessage('Content is required'),
 ];
 
+const postGetById = async(req,res) => {
+    const{postId} = req.params
+    try{
+        const post = await postModel.findPostById(postId)
+        res.status(200).json({message:' post fetched successfully', post})
+    }catch(error){
+        res.status(500).json({message:'failed to  fetch post', error: error.message})
+    }
+    
+}
+
 const postGetAll = async (req, res) => {
     try {
         const posts = await postModel.postGetAll();
@@ -71,4 +82,4 @@ const postDelete = async(req,res) => {
     }
 }
 
-module.exports = {postGetAll, postCreate, postUpdate, postDelete, postGetByUserId, };
+module.exports = {postGetAll, postCreate, postUpdate, postDelete, postGetByUserId, postGetById };

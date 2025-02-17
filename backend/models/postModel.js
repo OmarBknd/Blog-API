@@ -4,7 +4,15 @@ const prisma = new PrismaClient();
 
 const findPostById = async (postId) => {
     const post = await prisma.post.findUnique({
-        where:{id:postId}
+        where:{id:postId},
+        include: {
+            author: true,  
+            comments: {     
+                include: {
+                    author: true
+                }
+            }
+        }
     })
     return post
 }
