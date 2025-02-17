@@ -8,19 +8,14 @@ import { useState, useEffect } from "react";
 const Profile = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  
 
   type User = { firstName: string; lastName: string };
   const [user, setUser] = useState<User | null>(null);
 
- 
-  const { posts: userPosts, handleCommentDelete, handlePostDelete } = usePost(() =>
-    postGetByUserId(id!)
-  );
+  // Fetch user posts
+  const { posts: userPosts } = usePost(() => postGetByUserId(id!));
 
- 
- 
- 
+  // Fetch user profile
   useEffect(() => {
     if (!id) return;
     const fetchUserData = async () => {
@@ -56,14 +51,10 @@ const Profile = () => {
       <div className="max-w-4xl w-full">
         <h2 className="text-2xl font-bold text-white mb-4 text-center">Your Posts</h2>
         {userPosts.length > 0 ? (
-          <ul className="space-y-8">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {userPosts.map((post) => (
               <li key={post.id}>
-                <PostCard
-                  post={post}
-                  onCommentDelete={handleCommentDelete}
-                  onPostDelete={handlePostDelete}
-                />
+                <PostCard post={post} />
               </li>
             ))}
           </ul>
