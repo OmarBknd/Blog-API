@@ -1,21 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { commentDelete } from "../../api/comment";
 
 type CommentDeleteProps = {
   commentId: string;
-  authorId: string; 
   onDelete: () => void; 
 };
 
-const CommentDelete = ({ commentId, authorId, onDelete }: CommentDeleteProps) => {
+const CommentDelete = ({ commentId, onDelete }: CommentDeleteProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState("");
-  const [isAuthor, setIsAuthor] = useState(false); 
-
-  useEffect(() => {
-    const loggedInUserId = localStorage.getItem("userId");
-    setIsAuthor(loggedInUserId === authorId); 
-  }, [authorId]);
+ 
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
@@ -35,7 +29,7 @@ const CommentDelete = ({ commentId, authorId, onDelete }: CommentDeleteProps) =>
     }
   };
 
-  if (!isAuthor) return null;
+ 
 
   return (
     <div>
