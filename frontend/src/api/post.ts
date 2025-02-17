@@ -6,6 +6,21 @@ type Post = {
 }
 
 
+const postGetById = async(postId:string) => {
+    try{
+        const response = await api.get(`/post/${postId}`)
+        console.log('data', response.data);
+        console.log('post', response.data.post);
+        
+        return response.data.post
+        
+        
+    }catch (error) {
+        console.error('Error Fetching  post', error);
+     
+    }
+}
+
 const postGetByUserId = async(userId:string) => {
     try{
         
@@ -61,4 +76,4 @@ const postDelete = async (postId: string) => {
 }
 }
 
-export  {postCreate, postGetByUserId, postUpdate, postDelete }
+export  {postCreate, postGetByUserId, postUpdate, postDelete, postGetById }
