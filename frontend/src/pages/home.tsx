@@ -1,4 +1,4 @@
-import { PostList } from "../components/posts-management/PostsList";
+import  PostList  from "../components/posts-management/PostsList";
 import { getProfile } from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
