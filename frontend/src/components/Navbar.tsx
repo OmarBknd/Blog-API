@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 const Navbar = () => {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem("userId")
+    const userRole = localStorage.getItem("userRole")
+   
 
     // Check if user is logged in when the component mounts
     useEffect(() => {
@@ -15,6 +17,7 @@ const Navbar = () => {
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
+        localStorage.removeItem("userRole")
         setIsLoggedIn(false);
         navigate("/");
     };
@@ -25,6 +28,17 @@ const Navbar = () => {
                 <span className="text-white font-bold text-2xl cursor-pointer" onClick={() => navigate('/')}>
                     Blog
                 </span>
+                <div>
+{userRole ==='ADMIN' &&
+                
+                <button 
+                            className="text-white font-semibold text-lg hover:text-gray-300 transition duration-300" 
+                            onClick={() => navigate(`/admin-dashboard`)}
+                        >
+                            Admin dashboard
+                        </button>
+}
+                        </div>
             </div>
             <div className="flex flex-row items-center space-x-6">
                 <button 
