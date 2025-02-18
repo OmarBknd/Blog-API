@@ -13,13 +13,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(passport.initialize())
 
+
 const indexRouter = require('./routes/indexRouter');
+const adminRouter = require('./routes/adminRouter')
 const signUpRouter = require('./routes/signUpRouter');
 const signInRouter = require('./routes/signInRouter')
 const postRouter = require('./routes/postRouter');
 
 
 app.use('/', indexRouter);
+app.use('/admin-dashboard', adminRouter)
 app.use('/signup', signUpRouter);
 app.use('/signin', signInRouter);
 app.use('/post', postRouter);
