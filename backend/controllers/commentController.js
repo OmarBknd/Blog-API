@@ -5,6 +5,14 @@ const validateComment = [
     body('content').notEmpty().withMessage('Content is required'),
 ];
 
+const commentsGetAll = async (req, res) => {
+    try {
+        const comments = await commentModel.commentsGetAll()
+        res.status(200).json({message: 'commentss fetched successfully', comments});
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
 
 const commentCreate = [
     validateComment,
@@ -50,9 +58,10 @@ const commentUpdate = async (req, res) => {
     const {commentId} = req.params;
     const {content} = req.body;
     const userId = req.user.id
+    const isAdmin= req.user.role ==='ADMIN'
     try {
         const userComment = await commentModel.findCommentById(commentId)
-        if (userComment.authorId !== userId) {
+        if (userComment.authorId !== userId && !isAdmin) {
             return res.status(403).json({ message: "Unauthorized to update this comment" });
         }
         const comment = await commentModel.commentUpdate(commentId, content);
@@ -62,4 +71,4 @@ const commentUpdate = async (req, res) => {
     }
 }    
 
-module.exports = { commentCreate, commentDelete, commentUpdate};
+module.exports = { commentsGetAll, commentCreate, commentDelete, commentUpdate};

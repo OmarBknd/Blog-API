@@ -1,6 +1,25 @@
 const userModel = require('../models/userModel')
 const bcrypt = require('bcryptjs')
 
+const userGetAll = async (req, res) => {
+    
+    const isAdmin = req.user.role === 'ADMIN';
+
+    try {
+        
+        if (!isAdmin) {
+            return res.status(403).json({ message: "Unauthorized to fetch users" }); 
+        }
+
+        const users = await userModel.userGetAll(); 
+        return res.status(200).json({ message: "Users retrieved", users }); 
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 const userProfile = async (req,res) => {
     const {id} = req.params
     try{
@@ -35,4 +54,4 @@ const userUpdatePassword = async(req,res) => {
   
 }
 
-module.exports = {userProfile, userUpdatePassword}
+module.exports = {userProfile, userUpdatePassword, userGetAll}
