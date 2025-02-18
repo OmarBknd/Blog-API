@@ -10,6 +10,12 @@ const findCommentById = async (id)=>{
     return comment
 }
 
+const commentsGetAll = async () => {
+    const comments = await prisma.comment.findMany({
+        include: {  author: true,   }
+    });
+    return comments;
+}
 const commentCreate = async (content,authorId, postId) => {
     const comment = await prisma.comment.create({
         data: {
@@ -38,4 +44,4 @@ const commentUpdate = async(commentId, content) =>{
     return comment
 }
 
-module.exports = {findCommentById,commentCreate, commentDelete, commentUpdate};
+module.exports = {commentsGetAll, findCommentById,commentCreate, commentDelete, commentUpdate};
