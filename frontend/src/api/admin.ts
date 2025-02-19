@@ -1,5 +1,15 @@
 import api from "./api";
 
+
+const approvePostStatus = async(postId:string, published: boolean) => {
+    const token = localStorage.getItem('token')
+    const response = await api.patch(`/admin-dashboard/posts/${postId}/status`,{published} ,{
+        headers: { Authorization: `Bearer ${token}` }})
+    
+    
+    return response.data
+}
+
 const adminFetchUsers = async() => {
     const token = localStorage.getItem('token')
     const response = await api.get(`/admin-dashboard/users`, {
@@ -26,4 +36,4 @@ const adminfetchComments = async() => {
     
     return response.data
 }
-export {adminFetchUsers, adminfetchPosts, adminfetchComments}
+export {adminFetchUsers, adminfetchPosts, adminfetchComments, approvePostStatus}
