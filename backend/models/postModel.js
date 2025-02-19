@@ -1,7 +1,13 @@
 const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 
-
+const postUpdateStatus = async (postId, published) =>{
+    const postStatus = await prisma.post.update({
+        where:{id:postId},
+        data:{published}
+    })
+    return postStatus
+}
 const findPostById = async (postId) => {
     const post = await prisma.post.findUnique({
         where:{id:postId},
@@ -17,10 +23,11 @@ const findPostById = async (postId) => {
     return post
 }
 
-const postGetAll = async () => {
+const postGetAll = async (isAdmin = false) => {
     const posts = await prisma.post.findMany({
+        where: isAdmin ? {} : { published: true },  // Show all posts if admin
         include: {
-            
+          
             author: { select: { firstName: true, lastName: true, id:true },},
             comments: { 
                 include: { 
@@ -82,4 +89,4 @@ const postDelete = async (id) =>{
     return post
 }
 
-module.exports = {findPostById, postGetAll, postCreate, postUpdate, postDelete, postGetByUserId};
+module.exports = {findPostById, postGetAll, postCreate, postUpdate, postDelete, postGetByUserId, postUpdateStatus};
