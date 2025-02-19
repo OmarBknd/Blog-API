@@ -31,5 +31,8 @@ router.get( '/comments',
    );
    router.delete('/comments/delete/:commentId', passport.authenticate('jwt', {session: false}),adminAuth, commentController.commentDelete);
 
-
+router.patch('/posts/:postId/status',
+    passport.authenticate('jwt', {session: false}),adminAuth, 
+    postController.postApprove
+)
 module.exports = router;
