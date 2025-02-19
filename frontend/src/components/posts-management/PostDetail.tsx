@@ -6,6 +6,7 @@ import CommentDelete from "../comments-management/CommentDelete";
 import CommentUpdate from "../comments-management/CommentUpdate";
 import PostDelete from "./PostDelete";
 import { Post, Comment } from "../../types";
+import  DOMPurify  from "dompurify";
 
 const PostDetail = () => {
   const { postId } = useParams<{ postId: string }>();
@@ -65,10 +66,13 @@ const PostDetail = () => {
   if (error) return <p className="text-center text-red-600">{error}</p>;
   if (!post) return null;
 
+  const sanitizedPostContent = DOMPurify.sanitize(post.content);
+
+  
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold text-gray-900">{post.title}</h2>
-      <p className="text-gray-700 text-lg leading-relaxed mt-4">{post.content}</p>
+      <p className="text-gray-700 text-lg leading-relaxed mt-4" dangerouslySetInnerHTML={{ __html: sanitizedPostContent }}/>
 
      
       {userId === post.author.id && (
