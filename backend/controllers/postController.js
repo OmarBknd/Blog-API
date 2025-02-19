@@ -6,6 +6,31 @@ const validateResults = [
     body('content').notEmpty().withMessage('Content is required'),
 ];
 
+const postApprove = async (req, res) => {
+    const { postId } = req.params;
+    const {published} = req.body
+
+    try {
+        const post = await postModel.findPostById(postId);
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        if (req.user.role !== "ADMIN") {
+            return res.status(403).json({ message: "Unauthorized to approve this post" });
+        }
+
+        const updatedPost = await postModel.postUpdateStatus(postId, published)
+        console.log('post status',updatedPost);
+        
+
+        res.status(200).json({ message: "Post approved successfully", post: updatedPost });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 const postGetById = async(req,res) => {
     const{postId} = req.params
     try{
@@ -19,7 +44,8 @@ const postGetById = async(req,res) => {
 
 const postGetAll = async (req, res) => {
     try {
-        const posts = await postModel.postGetAll();
+        const isAdmin = req.user && req.user.role === "ADMIN"
+        const posts = await postModel.postGetAll(isAdmin);
         res.status(200).json({message: 'Posts fetched successfully', posts});
     } catch (error) {
         res.status(500).json({message: error.message});
@@ -93,4 +119,4 @@ const postDelete = async (req, res) => {
 };
 
 
-module.exports = {postGetAll, postCreate, postUpdate, postDelete, postGetByUserId, postGetById };
+module.exports = {postGetAll, postCreate, postUpdate, postDelete, postGetByUserId, postGetById, postApprove };
