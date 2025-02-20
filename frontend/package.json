@@ -9,11 +9,18 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "overrides": {
+    "@tinymce/tinymce-react": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
+  },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.6",
     "@tinymce/tinymce-react": "^5.1.1",
     "axios": "^1.7.9",
     "dompurify": "^3.2.4",
+    "lucide-react": "^0.475.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5",
