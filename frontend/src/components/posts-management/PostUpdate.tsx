@@ -72,7 +72,7 @@ const PostUpdate = () => {
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
-    <div className="p-6 max-w-3xl mx-auto bg-white shadow-lg rounded-lg">
+    <div className="p-6 max-w-3xl mx-auto  shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Update Your Post</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input

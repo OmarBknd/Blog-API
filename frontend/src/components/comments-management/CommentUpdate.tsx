@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { commentUpdate } from "../../api/comment";
-
+import { Edit } from "lucide-react";
 type CommentUpdateProps = {
   commentId: string;
   initialContent: string;
@@ -72,8 +72,9 @@ const CommentUpdate = ({ commentId, initialContent, onUpdate }: CommentUpdatePro
       ) : (
         <button
           onClick={handleEditClick}
-          className="mt-2 px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600"
+          className=" text-sm flex items-center gap-1 cursor-pointer  "
         >
+          <Edit className="size-4"/>
           Edit
         </button>
       )}

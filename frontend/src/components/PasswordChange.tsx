@@ -3,12 +3,21 @@ import { changeUserPassword } from "../api";
 
 const PasswordChange = () => {
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("")
     const userId = localStorage.getItem("userId"); 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
+        const{name,value} = e.target
+        if(name ==='password'){
+            setPassword(value);
+        }
+        if(name === 'confirmPassword'){
+            setConfirmPassword(value)
+        }
+        
+        
     };
-
+   
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault(); 
 
@@ -16,17 +25,21 @@ const PasswordChange = () => {
             alert("User not logged in.");
             return;
         }
-
+        if(password !== confirmPassword){
+            alert('Password does not macth')
+            return
+        }
         try {
            await changeUserPassword(userId, password)
            alert('Password changed successfully!');
            setPassword('');
+           setConfirmPassword('')
         } catch (error) {
             console.error("Error:", error);
             alert("Error updating password");
         }
     };
-
+   
     return (
         <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
             <div className="mb-4">
@@ -38,7 +51,19 @@ const PasswordChange = () => {
                     value={password}
                     onChange={handleChange}
                     required
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full px-3 py-2 border text-indigo-700 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+            </div>
+            <div className="mb-4">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700">Confirm New Password:</label>
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={confirmPassword}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full px-3 py-2 border text-indigo-700 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
             </div>
             <button

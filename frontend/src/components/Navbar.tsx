@@ -1,89 +1,78 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { ThemeContext } from "./DarkTheme";
+import { Sun, Moon } from "lucide-react";
+import { useAuth } from "../hooks/useAuth";
 
 const Navbar = () => {
-    const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const userId = localStorage.getItem("userId")
-    const userRole = localStorage.getItem("userRole")
-   
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+  const userId = localStorage.getItem("userId");
 
-    // Check if user is logged in when the component mounts
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        setIsLoggedIn(!!token);
-    }, []);
+  // Theme Toggle
+  const DarkThemeToggle = useContext(ThemeContext);
+  if (!DarkThemeToggle) return null;
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("userRole")
-        setIsLoggedIn(false);
-        navigate("/");
-    };
-
-    return (
-        <div className="flex flex-row justify-between items-center bg-gray-900 p-4 shadow-lg">
-            <div className="flex flex-row items-center">
-                <span className="text-white font-bold text-2xl cursor-pointer" onClick={() => navigate('/')}>
-                    Blog
-                </span>
-                <div>
-{userRole ==='ADMIN' &&
-                
-                <button 
-                            className="text-white font-semibold text-lg hover:text-gray-300 transition duration-300" 
-                            onClick={() => navigate(`/admin-dashboard`)}
-                        >
-                            Admin dashboard
-                        </button>
-}
-                        </div>
-            </div>
-            <div className="flex flex-row items-center space-x-6">
-                <button 
-                    className="text-white font-semibold text-lg hover:text-gray-300 transition duration-300" 
-                    onClick={() => navigate('/')}
-                >
-                    Home
-                </button>
-
-                {isLoggedIn ? (
-                    // If user is logged in, show "Logout" and "Profile" buttons
-                    <div className="flex flex-row items-center space-x-6">
-                        <button 
-                            className="text-white font-semibold text-lg hover:text-gray-300 transition duration-300" 
-                            onClick={() => navigate(`/profile/${userId}`)}
-                        >
-                            Profile
-                        </button>
-                        <button 
-                            className="text-white font-semibold text-lg hover:text-red-500 transition duration-300" 
-                            onClick={handleLogout}
-                        >
-                            Logout
-                        </button>
-                    </div>
-                ) : (
-                    // If not logged in, show "Signin" and "Signup" buttons
-                    <div className="flex flex-row items-center space-x-6">
-                        <button 
-                            className="text-white font-semibold text-lg hover:text-gray-300 transition duration-300" 
-                            onClick={() => navigate('/signin')}
-                        >
-                            Signin
-                        </button>
-                        <button 
-                            className="text-white font-semibold text-lg hover:text-gray-300 transition duration-300" 
-                            onClick={() => navigate('/signup')}
-                        >
-                            Signup
-                        </button>
-                    </div>
-                )}
-            </div>
+  return (
+    <nav className="bg-gray-950 p-4 shadow-lg">
+      <div className="max-w-6xl mx-auto flex items-center justify-between">
+        {/* Logo and Theme Toggle */}
+        <div className="flex items-center space-x-6">
+          <span
+            className="text-white font-bold text-2xl cursor-pointer hover:text-indigo-400 transition"
+            onClick={() => navigate("/")}
+          >
+            Blog
+          </span>
+          <button
+            onClick={DarkThemeToggle.toggleTheme}
+            className="p-2 rounded-full bg-gray-200 dark:bg-gray-800 text-black dark:text-white
+              hover:bg-gray-300 dark:hover:bg-gray-700 transition duration-300 focus:outline-none focus:ring-2"
+          >
+            {DarkThemeToggle.theme === "dark" ? (
+              <Sun className="size-5 text-yellow-400" />
+            ) : (
+              <Moon className="size-5 text-gray-700 dark:text-gray-300" />
+            )}
+          </button>
         </div>
-    );
+
+        {/* Navigation Links */}
+        <div className="flex items-center space-x-6">
+          <button
+            className="text-white font-semibold text-lg hover:text-indigo-400 transition duration-300"
+            onClick={() => navigate("/")}
+          >
+            Home
+          </button>
+
+          {isLoggedIn ? (
+            <button
+              className="text-white font-semibold text-lg hover:text-indigo-400 transition duration-300"
+              onClick={() => navigate(`/profile/${userId}`)}
+            >
+              Profile
+            </button>
+          ) : (
+            <div className="flex space-x-4">
+              <button
+                className="text-white font-semibold text-lg hover:text-indigo-400 transition duration-300"
+                onClick={() => navigate("/signin")}
+              >
+                Signin
+              </button>
+              <button
+                className="text-white font-semibold text-lg px-4 py-1 rounded-md bg-indigo-600 hover:bg-indigo-700 transition duration-300"
+                onClick={() => navigate("/signup")}
+              >
+                Signup
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
 };
 
 export default Navbar;

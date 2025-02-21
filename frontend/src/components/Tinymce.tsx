@@ -11,13 +11,15 @@ const Tinymce = ({ value, onChange }: TinymceProps) => {
   //const editorRef = useRef<any>(null);
 
   return (
-    <div className="w-full">
+    <div className="w-full dark:bg-gray-700 rounded-2xl">
       <Editor
         apiKey="5jiijuzpwlvt73jppjtioqjvsstty8zajoz9hat046ymzplp"
         value={value}
         onEditorChange={(newContent) => onChange(newContent)}
         
         init={{
+          
+          content_css:'dark',
           height: 500,
           menubar: false,
           plugins: [

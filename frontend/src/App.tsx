@@ -14,11 +14,14 @@ import AdminComments from "./pages/admin/AdminComments"
 import AdminPosts from "./pages/admin/AdminPosts"
 import AdminUsers from "./pages/admin/AdminUsers"
 import AdminProtectedRoute from "./pages/admin/AdminProtectedRoute"
-
+import { AuthProvider } from "./components/AuthProvider"
 
 function App() {
   return (
+    <div className="dark:bg-gray-900 dark:text-white h-screen">
+    
     <Router>
+    <AuthProvider>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -40,7 +43,10 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
+      </AuthProvider>
     </Router>
+    
+    </div>
   );
 }
 

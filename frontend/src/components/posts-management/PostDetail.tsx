@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { postGetById, postDelete } from "../../api/post";
+import { postGetById } from "../../api/post";
 import CommentCreate from "../comments-management/CommentCreate";
 import CommentDelete from "../comments-management/CommentDelete";
 import CommentUpdate from "../comments-management/CommentUpdate";
 import PostDelete from "./PostDelete";
 import { Post, Comment } from "../../types";
+import { Edit } from "lucide-react";
 import  DOMPurify  from "dompurify";
 
 const PostDetail = () => {
@@ -35,32 +36,8 @@ const PostDetail = () => {
     fetchPost();
   }, [postId]);
 
-  const handlePostDelete = async () => {
-    if (!postId) return;
+  
 
-    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
-    if (!confirmDelete) return;
-
-    try {
-      await postDelete(postId);
-      navigate("/"); 
-    } catch (error) {
-      console.error("Error deleting post:", error);
-      setError("Failed to delete post.");
-    }
-  };
-
-  const handleCommentDelete = (commentId: string) => {
-    if (!post) return;
-
-    const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
-    if (!confirmDelete) return;
-
-    setPost({
-      ...post,
-      comments: post.comments.filter((comment) => comment.id !== commentId),
-    });
-  };
 
   if (loading) return <p className="text-center text-gray-600">Loading post...</p>;
   if (error) return <p className="text-center text-red-600">{error}</p>;
@@ -70,22 +47,24 @@ const PostDetail = () => {
 
   
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold text-gray-900">{post.title}</h2>
-      <p className="text-gray-700 text-lg leading-relaxed mt-4" dangerouslySetInnerHTML={{ __html: sanitizedPostContent }}/>
-
-     
-      {userId === post.author.id && (
-        <div className="mt-4 flex space-x-3">
+    <div className=" max-w-3xl  mx-auto p-6 mt-6 dark:bg-gray-700  dark:text-white rounded-lg shadow-lg">
+       {userId === post.author.id && (
+        <div className="mt-4 flex items-center justify-end space-x-3">
           <button
-            className="px-4 py-2 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition"
+            className=" flex gap-1 cursor-pointer dark:text-white"
             onClick={() => navigate(`/post/update/${postId}`)}
           >
+            <Edit/>
             Edit Post
           </button>
-          <PostDelete postId={post.id} onDelete={handlePostDelete} />
+          <PostDelete postId={post.id}  />
         </div>
       )}
+      <h2 className="text-3xl font-bold dark:text-white text-gray-900">{post.title}</h2>
+      <p className="text-gray-700 text-lg leading-relaxed mt-4 dark:text-white" dangerouslySetInnerHTML={{ __html: sanitizedPostContent }}/>
+
+     
+     
 
       
       <div className="mt-6">
@@ -93,17 +72,16 @@ const PostDetail = () => {
         {post.comments.length > 0 ? (
           <ul className="space-y-4">
             {post.comments.map((comment: Comment) => (
-              <li key={comment.id} className="p-4 bg-gray-100 rounded-md shadow-sm">
-                <p className="text-gray-700">{comment.content}</p>
-                <span className="text-xs text-gray-500">
-                  - {comment.author.firstName} {comment.author.lastName}
-                </span>
-
-                
-                {userId === comment.author.id && (
-                  <div className="mt-2 flex space-x-2">
-                    <CommentDelete commentId={comment.id} onDelete={() => handleCommentDelete(comment.id)} />
-                    <CommentUpdate
+              
+              <li key={comment.id} className="p-4 bg-gray-100 dark:bg-gray-500  rounded-md shadow-sm">
+                 {userId === comment.author.id && (
+                  <div className=" flex  space-x-2 justify-end ">
+                    <CommentDelete commentId={comment.id} />
+                  </div>
+                )}
+                <div className="">
+               
+               {userId === comment.author.id && <CommentUpdate
                       commentId={comment.id}
                       initialContent={comment.content}
                       onUpdate={(updatedContent) => {
@@ -115,8 +93,17 @@ const PostDetail = () => {
                         });
                       }}
                     />
-                  </div>
-                )}
+                    }
+                     <p className="text-gray-700 dark:text-white">{comment.content}</p>
+                </div>
+                
+                
+                <span className="text-xs text-gray-500 dark:text-white">
+                  - {comment.author.firstName} {comment.author.lastName}
+                </span>
+
+              
+               
               </li>
             ))}
           </ul>

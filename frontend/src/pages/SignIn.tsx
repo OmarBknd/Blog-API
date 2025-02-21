@@ -1,9 +1,11 @@
 import signInFetch from "../api/signIn";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../hooks/useAuth"; 
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const { login } = useAuth(); 
 
   type User = {
     email: string;
@@ -29,22 +31,19 @@ const SignIn = () => {
     try {
       const response = await signInFetch(formData); // Use the signInFetch function
       if (response.token) {
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("userId", response.user.id);
-        localStorage.setItem("userRole", response.user.role)
-        
-        
+        // Call the login function from AuthProvider
+        login(response.token, response.user.id, response.user.role);
+        navigate(`/profile/${response.user.id}`);
       }
-      navigate(`/profile/${response.user.id}`);
     } catch (error) {
       console.error("Sign-in failed:", error);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-white mb-6 text-center">Sign In</h2>
+    <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
+      <div className="dark:bg-gray-800 bg-gradient-to-tl from-blue-950 to-gray-400 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold dark:text-white mb-6 text-center">Sign In</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-300">
@@ -85,7 +84,7 @@ const SignIn = () => {
           Don't have an account?{" "}
           <button
             onClick={() => navigate("/signup")}
-            className="text-blue-500 hover:text-blue-400 transition duration-300"
+            className="text-indigo-500 hover:text-indigo-400 transition duration-300"
           >
             Sign Up
           </button>

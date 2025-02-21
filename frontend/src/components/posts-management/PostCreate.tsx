@@ -34,16 +34,16 @@ const PostCreate = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 shadow-lg rounded-lg max-w-lg w-full">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+    <div className="flex items-center dark:bg-gray-900 dark:text-white justify-center min-h-screen bg-gray-100">
+      <div className=" p-8 shadow-lg rounded-lg w-full dark:bg-gray-800 dark:text-white">
+        <h1 className="text-3xl font-bold  mb-6 text-center">
           Create a New Post
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
          
           <div>
-            <label className="block text-gray-700 text-lg font-medium mb-2" htmlFor="title">
+            <label className="block text-gray-700 dark:text-white text-lg font-medium mb-2" htmlFor="title">
               Title
             </label>
             <input
@@ -52,14 +52,14 @@ const PostCreate = () => {
               name="title"
               value={newPost.title}
               onChange={handleTitleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  dark:text-white "
               placeholder="Enter post title"
             />
           </div>
 
           
           <div>
-            <label className="block text-gray-700 text-lg font-medium mb-2">
+            <label className="block text-gray-700  dark:text-white text-lg font-medium mb-2">
               Content
             </label>
             <Tinymce value={newPost.content} onChange={handleEditorChange} />
@@ -68,7 +68,7 @@ const PostCreate = () => {
          
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="p-3 bg-blue-600 dark:bg-indigo-600 text-white rounded-lg text-lg font-semibold hover:bg-blue-700 transition dark:hover:bg-indigo-700 duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Create Post
           </button>

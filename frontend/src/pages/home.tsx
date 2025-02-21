@@ -30,11 +30,11 @@ const Home = () => {
   }, [userId]);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-8 px-4">
+    <div className="min-h-screen dark:bg-gray-900 flex flex-col items-center py-8 px-4">
      
       {user && (
-        <div className="bg-white p-4 rounded-lg shadow-md text-center mb-6 w-full max-w-md">
-          <p className="text-xl font-semibold text-gray-800">
+        <div className=" ">
+          <p className="text-xl font-semibold dark:text-white ">
             Welcome, {user.firstName} {user.lastName}!
           </p>
         </div>
@@ -42,16 +42,16 @@ const Home = () => {
 
      
       <button
-        className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 focus:ring-2 focus:ring-blue-500 mb-6"
+        className="bg-blue-600 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 focus:ring-2 focus:ring-blue-500 mb-6"
         onClick={() => navigate("/post/create")}
       >
          Create a New Post
       </button>
 
       
-      <div className="w-full max-w-3xl">
+      
         <PostList />
-      </div>
+      
     </div>
   );
 };
