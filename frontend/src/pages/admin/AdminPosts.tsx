@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { adminfetchPosts, approvePostStatus } from "../../api/admin";
-
-type Post = {
-  id: string;
-  title: string;
-  published: boolean;
-  author: { firstName: string; lastName: string };
-};
+import { format } from "date-fns";
+import { Post } from "../../types";
 
 const AdminPosts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -37,18 +32,21 @@ const AdminPosts = () => {
       setLoading(null);
     }
   };
-
+ const handleTimeFormat = (date:string) =>{
+   return format(new Date(date),` eeee dd/MM/yyyy 'at' hh:mm aaa`)
+ }
   return (
-    <div className="p-6">
+    <div className="p-6 dark:bg-gray-800">
       <h2 className="text-xl font-bold mb-4">Manage Posts</h2>
-      <ul className="space-y-2">
+      <ul className="space-y-2 dark:bg-gray-700">
         {posts.length > 0 ? (
           posts.map((post) => (
             <li key={post.id} className="p-2 border rounded flex justify-between items-center">
-              <span>
+              <span className="w-96">
                 {post.title} (by {post.author.firstName} {post.author.lastName}) -{" "}
                 {post.published ? "Published" : "Unpublished"}
               </span>
+              <p>{handleTimeFormat(post.createdAt)}</p>
               <button
                 onClick={() => handleTogglePublish(post.id, post.published)}
                 className={`px-3 py-1 rounded transition ${
@@ -63,7 +61,8 @@ const AdminPosts = () => {
                   : post.published
                   ? "Unpublish"
                   : "Publish"}
-              </button>
+              </button> 
+             
             </li>
           ))
         ) : (

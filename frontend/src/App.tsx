@@ -18,7 +18,7 @@ import { AuthProvider } from "./components/AuthProvider"
 
 function App() {
   return (
-    <div className="dark:bg-gray-900 dark:text-white h-screen">
+    <div className="dark:bg-gray-900 dark:text-white min-h-screen">
     
     <Router>
     <AuthProvider>

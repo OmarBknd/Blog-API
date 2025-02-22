@@ -8,6 +8,7 @@ import PostDelete from "./PostDelete";
 import { Post, Comment } from "../../types";
 import { Edit } from "lucide-react";
 import  DOMPurify  from "dompurify";
+import { formatDistanceToNow } from "date-fns";
 
 const PostDetail = () => {
   const { postId } = useParams<{ postId: string }>();
@@ -35,7 +36,10 @@ const PostDetail = () => {
 
     fetchPost();
   }, [postId]);
-
+  
+ const handleTimeFormat = (date:string) =>{
+   return formatDistanceToNow(new Date(date),{addSuffix:true})
+ }
   
 
 
@@ -101,7 +105,7 @@ const PostDetail = () => {
                 <span className="text-xs text-gray-500 dark:text-white">
                   - {comment.author.firstName} {comment.author.lastName}
                 </span>
-
+                <p className="text-gray-700 dark:text-white">{handleTimeFormat(comment.createdAt)}</p>
               
                
               </li>
@@ -116,6 +120,7 @@ const PostDetail = () => {
       <div className="mt-6">
         <CommentCreate postId={post.id} />
       </div>
+      <p >{handleTimeFormat(post.createdAt)}</p>
     </div>
   );
 };
