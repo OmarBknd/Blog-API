@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { postDelete } from "../../api/post";
 import { Delete } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 type PostDeleteProps = {
   postId: string;
  
 };
 
 const PostDelete = ({ postId }: PostDeleteProps) => {
-  
+  const navigate= useNavigate()
   const [error, setError] = useState("");
 
   const handleDelete = async () => {
@@ -19,7 +20,7 @@ const PostDelete = ({ postId }: PostDeleteProps) => {
 
     try {
       await postDelete(postId);
-     
+      setTimeout(() => navigate('/'),1000)
     } catch (error) {
       console.error("Error deleting Post:", error);
       setError("Failed to delete Post. Please try again.");
