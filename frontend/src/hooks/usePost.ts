@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
 import { Post } from "../types";
 
-export const usePost = (fetchPostsFn: () => Promise<{ posts: Post[] }>) => {
+export const usePost = (fetchPostsFn: () =>Promise<{ posts?: Post[]; post?: Post }>) => {
   const [posts, setPosts] = useState<Post[]>([]);
+console.log('posts from use post', posts);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const data = await fetchPostsFn();
-        setPosts(data.posts);
+        if (data.posts) {
+          setPosts(data.posts);
+        } else if (data.post) {
+          setPosts([data.post]); 
+        }
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
@@ -17,19 +22,10 @@ export const usePost = (fetchPostsFn: () => Promise<{ posts: Post[] }>) => {
     fetchPosts();
   }, [fetchPostsFn]);
 
-  const handleCommentDelete = (postId: string, commentId: string) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId
-          ? { ...post, comments: post.comments.filter((c) => c.id !== commentId) }
-          : post
-      )
-    );
-  };
 
   const handlePostDelete = (postId: string) => {
     setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
   };
 
-  return { posts, setPosts, handleCommentDelete, handlePostDelete };
+  return { posts, setPosts, handlePostDelete };
 };

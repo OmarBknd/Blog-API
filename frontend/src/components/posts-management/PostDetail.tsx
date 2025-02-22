@@ -13,6 +13,9 @@ import { formatDistanceToNow } from "date-fns";
 const PostDetail = () => {
   const { postId } = useParams<{ postId: string }>();
   const [post, setPost] = useState<Post | null>(null);
+
+  
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const userId = localStorage.getItem("userId");
@@ -37,17 +40,17 @@ const PostDetail = () => {
 
     fetchPost();
   }, [postId]);
-  
-  const handleDeletedComment = (deletedComment:string) =>{
-    setPost((prevPost)=>{
-      if (!prevPost) return prevPost
+ 
+  const handleCommentDelete = (deletedCommentId: string) => {
+    setPost((prevPost) => {
+      if (!prevPost) return prevPost;
       return {
         ...prevPost,
-        comments: prevPost.comments.filter((c)=> c.id !== deletedComment)
-      }
-    })
-
+        comments: prevPost.comments.filter((c) => c.id !== deletedCommentId),
+      };
+    });
   }
+ 
   const handleTimeFormat = (createdAt: string, updatedAt?: string) => {
     if (updatedAt && updatedAt !== createdAt) {
       return `Edited ${formatDistanceToNow(new Date(updatedAt), { addSuffix: true })}`;
@@ -99,7 +102,7 @@ const PostDetail = () => {
                  {(userId === comment.author.id || userRole === 'ADMIN')&& (
                   <div className=" flex  space-x-2 justify-end ">
                     <CommentDelete
-                    onDelete={()=>handleDeletedComment(comment.id)}
+                    onDelete={()=>handleCommentDelete(comment.id)}
                     commentId={comment.id} />
                   </div>
                 )}
@@ -138,7 +141,9 @@ const PostDetail = () => {
 
       
       <div className="mt-6">
-        <CommentCreate postId={post.id} />
+        <CommentCreate 
+        
+        postId={post.id} />
       </div>
       <p >{handleTimeFormat(post.createdAt, post.updatedAt)}</p>
     </div>
