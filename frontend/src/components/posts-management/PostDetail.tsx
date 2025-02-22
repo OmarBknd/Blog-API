@@ -37,10 +37,15 @@ const PostDetail = () => {
     fetchPost();
   }, [postId]);
   
- const handleTimeFormat = (date:string) =>{
-   return formatDistanceToNow(new Date(date),{addSuffix:true})
- }
+
+  const handleTimeFormat = (createdAt: string, updatedAt?: string) => {
+    if (updatedAt) {
+      return `Edited ${formatDistanceToNow(new Date(updatedAt), { addSuffix: true })}`;
+    }
+    return `Posted ${formatDistanceToNow(new Date(createdAt), { addSuffix: true })}`;
+  };
   
+
 
 
   if (loading) return <p className="text-center text-gray-600">Loading post...</p>;
@@ -92,7 +97,7 @@ const PostDetail = () => {
                         setPost({
                           ...post,
                           comments: post.comments.map((c) =>
-                            c.id === comment.id ? { ...c, content: updatedContent } : c
+                            c.id === comment.id ? { ...c, content: updatedContent,updatedAt: new Date().toISOString() } : c
                           ),
                         });
                       }}
@@ -105,7 +110,7 @@ const PostDetail = () => {
                 <span className="text-xs text-gray-500 dark:text-white">
                   - {comment.author.firstName} {comment.author.lastName}
                 </span>
-                <p className="text-gray-700 dark:text-white">{handleTimeFormat(comment.createdAt)}</p>
+                <p className="text-gray-700 dark:text-white">{handleTimeFormat(comment.createdAt, comment.updatedAt)}</p>
               
                
               </li>
@@ -120,7 +125,7 @@ const PostDetail = () => {
       <div className="mt-6">
         <CommentCreate postId={post.id} />
       </div>
-      <p >{handleTimeFormat(post.createdAt)}</p>
+      <p >{handleTimeFormat(post.createdAt, post.updatedAt)}</p>
     </div>
   );
 };

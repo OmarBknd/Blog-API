@@ -1,7 +1,8 @@
 export type Comment = {
     id: string;
     content: string;
-    createdAt: string
+    createdAt: string;
+    updatedAt: string;
     author: {
       firstName: string;
       lastName: string;
@@ -13,7 +14,8 @@ export type Post = {
     id: string;
     title: string;
     content: string;
-    createdAt:string
+    createdAt:string;
+    updatedAt: string;
     comments: Comment[];
     published:boolean;
     author: {
@@ -29,4 +31,5 @@ export  type User = {
     lastName: string;
     email: string;
     createdAt:string;
+    updatedAt: string;
   }
