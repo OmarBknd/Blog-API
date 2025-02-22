@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Tinymce from "../Tinymce";
 import { postCreate } from "../../api/post";
-
+import toast from "react-hot-toast";
 const PostCreate = () => {
   const navigate = useNavigate();
   const [newPost, setNewPost] = useState({ title: "", content: "" });
@@ -25,12 +25,20 @@ const PostCreate = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const postData = { ...newPost, authorId };
-    try {
-      await postCreate(postData);
-      navigate("/");
-    } catch (error) {
-      console.error("Failed to create post:", error);
-    }
+    return toast.promise(
+      postCreate(postData) 
+        .then(() => {
+          setTimeout(() => navigate('/'), 2000);
+        }),
+      {
+        loading: "Deleting post...",
+        success: "Post created, wait for admin approval",
+        error: "Failed to delete post.",
+        
+      },{
+        duration:3000
+      }
+    );
   };
 
   return (

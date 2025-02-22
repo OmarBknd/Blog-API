@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { commentDelete } from "../../api/comment";
 import { Delete } from "lucide-react";
+import { toast } from "react-hot-toast";
 type CommentDeleteProps = {
   commentId: string;
   onDelete : (commentId:string) => void
@@ -8,20 +8,21 @@ type CommentDeleteProps = {
 
 const CommentDelete = ({ commentId, onDelete }: CommentDeleteProps) => {
   
-  const [error, setError] = useState("");
+  
  
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
     if (!confirmDelete) return;
-    setError("");
+    
 
     try {
       await commentDelete(commentId);
       onDelete(commentId)
+      toast.success('Comment deleted')
     } catch (error) {
       console.error("Error deleting comment:", error);
-      setError("Failed to delete comment. Please try again.");
+      toast.error("Failed to delete comment. Please try again.");
     }
   };
 
@@ -29,7 +30,6 @@ const CommentDelete = ({ commentId, onDelete }: CommentDeleteProps) => {
 
   return (
     <div>
-      {error && <p className="text-red-500 text-sm">{error}</p>}
       <button
         onClick={handleDelete}
         

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { commentUpdate } from "../../api/comment";
 import { Edit } from "lucide-react";
+import toast from "react-hot-toast";
 type CommentUpdateProps = {
   commentId: string;
   initialContent: string;
@@ -10,8 +11,7 @@ type CommentUpdateProps = {
 const CommentUpdate = ({ commentId, initialContent, onUpdate }: CommentUpdateProps) => {
   const [content, setContent] = useState(initialContent);
   const [isEditing, setIsEditing] = useState(false); // Track editing state
-  const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState("");
+ 
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -24,21 +24,21 @@ const CommentUpdate = ({ commentId, initialContent, onUpdate }: CommentUpdatePro
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setMessage("");
+    
+    
 
     try {
       const response = await commentUpdate(commentId, { content });
       if (!response) {
-        setError("Failed to update comment.");
+        toast.error("Failed to update comment.");
         return;
       }
-      setMessage("Comment updated successfully!");
+      toast.success("Comment updated successfully!");
       onUpdate(content);
       setIsEditing(false); // Hide the form after successful update
     } catch (error) {
       console.error("Error updating comment:", error);
-      setError("Error updating comment.");
+      toast.error("Error updating comment.");
     }
   };
 
@@ -78,8 +78,7 @@ const CommentUpdate = ({ commentId, initialContent, onUpdate }: CommentUpdatePro
           Edit
         </button>
       )}
-      {message && <p className="text-green-600 mt-2">{message}</p>}
-      {error && <p className="text-red-600 mt-2">{error}</p>}
+      
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Tinymce from "../Tinymce";
 import { postUpdate, postGetByUserId } from "../../api/post";
 import { Post } from "../../types";
+import toast from "react-hot-toast";
 
 const PostUpdate = () => {
   const { postId } = useParams<{ postId: string }>();
@@ -11,8 +12,7 @@ const PostUpdate = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState("");
+ 
 
   useEffect(() => {
     if (!postId) return;
@@ -21,19 +21,19 @@ const PostUpdate = () => {
       try {
         const userId = localStorage.getItem("userId"); 
         if (!userId) {
-          setError("User not authenticated.");
+          toast.error("User not authenticated.");
           return;
         }
 
         const userPosts = await postGetByUserId(userId);
         if (!userPosts) {
-          setError("Error fetching user posts.");
+          toast.error("Error fetching user posts.");
           return;
         }
 
         const foundPost = userPosts.posts?.find((p: Post) => p.id === postId);
         if (!foundPost) {
-          setError("Post not found.");
+          toast.error("Post not found.");
           return;
         }
 
@@ -41,7 +41,7 @@ const PostUpdate = () => {
         setContent(foundPost.content);
       } catch (error) {
         console.error("Error fetching post:", error);
-        setError("Failed to load the post.");
+        toast.error("Failed to load the post.");
       } finally {
         setLoading(false);
       }
@@ -57,19 +57,18 @@ const PostUpdate = () => {
     try {
       const response = await postUpdate(postId, { title, content });
       if (!response) {
-        setError("Failed to update post.");
+        toast.error("Failed to update post.");
         return;
       }
-      setMessage("Post updated successfully!");
+      toast.success("Post updated successfully!");
       setTimeout(() => navigate("/"), 1500);
     } catch (error) {
       console.error("Error updating post:", error);
-      setError("Error updating post.");
+      toast.error("Error updating post.");
     }
   };
 
   if (loading) return <p>Loading post...</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
 
   return (
     <div className="p-6 max-w-3xl mx-auto  shadow-lg rounded-lg">
@@ -91,7 +90,7 @@ const PostUpdate = () => {
           Update Post
         </button>
       </form>
-      {message && <p className="text-green-600">{message}</p>}
+     
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { commentCreate } from "../../api/comment";
-
+import toast from "react-hot-toast";
 type CommentCreateProp = {
   postId : string;
   
@@ -9,8 +9,7 @@ type CommentCreateProp = {
 const CommentCreate = ({postId}:CommentCreateProp) => {
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  
 
   
 
@@ -20,7 +19,7 @@ const CommentCreate = ({postId}:CommentCreateProp) => {
     e.preventDefault();
     
     if (!postId) {
-      setErrorMessage("Error: No post ID found.");
+      toast.error('No post id found!')
       return;
     }
 
@@ -28,16 +27,17 @@ const CommentCreate = ({postId}:CommentCreateProp) => {
 
     try {
       setIsSubmitting(true);
-      setErrorMessage(""); 
+      
 
-      const response = await commentCreate(commentData, postId);
-      console.log("Comment created successfully:", response);
-
-      setSuccessMessage("Comment created successfully!");
+      await commentCreate(commentData, postId);
+      
+      toast.success('Comment created')
+      
       setContent(""); 
     } catch (error) {
       console.error("Failed to create comment:", error);
-      setErrorMessage("Failed to create comment. Please try again.");
+      
+      toast.error('Failed to create comment')
     } finally {
       setIsSubmitting(false);
     }
@@ -55,7 +55,7 @@ const CommentCreate = ({postId}:CommentCreateProp) => {
             value={content}
             onChange={(e) => {
               setContent(e.target.value);
-              setSuccessMessage(""); 
+               
             }}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:outline-none dark:focus:border-indigo-500 focus:border-blue-500"
             rows={4}
@@ -63,14 +63,6 @@ const CommentCreate = ({postId}:CommentCreateProp) => {
             required
           />
         </div>
-
-        {errorMessage && (
-          <p className="text-red-500 text-sm">{errorMessage}</p>
-        )}
-
-        {successMessage && (
-          <p className="text-green-500 text-sm">{successMessage}</p>
-        )}
 
         <button
           type="submit"

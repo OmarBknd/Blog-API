@@ -2,6 +2,7 @@ import { useState } from "react";
 import { postDelete } from "../../api/post";
 import { Delete } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 type PostDeleteProps = {
   postId: string;
  
@@ -14,19 +15,23 @@ const PostDelete = ({ postId }: PostDeleteProps) => {
   const handleDelete = async () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this Post?");
     if (!confirmDelete) return;
-
   
     setError("");
-
-    try {
-      await postDelete(postId);
-      setTimeout(() => navigate('/'),1000)
-    } catch (error) {
-      console.error("Error deleting Post:", error);
-      setError("Failed to delete Post. Please try again.");
-    } 
+  
+    return toast.promise(
+      postDelete(postId) 
+        .then(() => {
+          setTimeout(() => navigate('/'), 1000);
+        }),
+      {
+        loading: "Deleting post...",
+        success: "Post deleted",
+        error: "Failed to delete post.",
+      }
+    );
   };
-
+  
+ 
   return (
     <div>
       {error && <p className="text-red-500 text-sm">{error}</p>}
