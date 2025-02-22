@@ -16,6 +16,7 @@ const PostDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const userId = localStorage.getItem("userId");
+  const userRole = localStorage.getItem("userRole")
   const navigate = useNavigate();
 
   // Fetch the post data
@@ -37,9 +38,18 @@ const PostDetail = () => {
     fetchPost();
   }, [postId]);
   
+  const handleDeletedComment = (deletedComment:string) =>{
+    setPost((prevPost)=>{
+      if (!prevPost) return prevPost
+      return {
+        ...prevPost,
+        comments: prevPost.comments.filter((c)=> c.id !== deletedComment)
+      }
+    })
 
+  }
   const handleTimeFormat = (createdAt: string, updatedAt?: string) => {
-    if (updatedAt) {
+    if (updatedAt && updatedAt !== createdAt) {
       return `Edited ${formatDistanceToNow(new Date(updatedAt), { addSuffix: true })}`;
     }
     return `Posted ${formatDistanceToNow(new Date(createdAt), { addSuffix: true })}`;
@@ -57,8 +67,9 @@ const PostDetail = () => {
   
   return (
     <div className=" max-w-3xl  mx-auto p-6 mt-6 dark:bg-gray-700  dark:text-white rounded-lg shadow-lg">
-       {userId === post.author.id && (
-        <div className="mt-4 flex items-center justify-end space-x-3">
+      <div className="mt-4 flex items-center justify-end space-x-3">
+       {userId === post.author.id  && (
+        <div >
           <button
             className=" flex gap-1 cursor-pointer dark:text-white"
             onClick={() => navigate(`/post/update/${postId}`)}
@@ -66,9 +77,11 @@ const PostDetail = () => {
             <Edit/>
             Edit Post
           </button>
-          <PostDelete postId={post.id}  />
+         
         </div>
       )}
+    {(userId === post.author.id || userRole ==="ADMIN") &&(   <PostDelete postId={post.id}  />)}
+    </div>
       <h2 className="text-3xl font-bold dark:text-white text-gray-900">{post.title}</h2>
       <p className="text-gray-700 text-lg leading-relaxed mt-4 dark:text-white" dangerouslySetInnerHTML={{ __html: sanitizedPostContent }}/>
 
@@ -83,9 +96,11 @@ const PostDetail = () => {
             {post.comments.map((comment: Comment) => (
               
               <li key={comment.id} className="p-4 bg-gray-100 dark:bg-gray-500  rounded-md shadow-sm">
-                 {userId === comment.author.id && (
+                 {(userId === comment.author.id || userRole === 'ADMIN')&& (
                   <div className=" flex  space-x-2 justify-end ">
-                    <CommentDelete commentId={comment.id} />
+                    <CommentDelete
+                    onDelete={()=>handleDeletedComment(comment.id)}
+                    commentId={comment.id} />
                   </div>
                 )}
                 <div className="">

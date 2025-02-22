@@ -3,10 +3,10 @@ import { commentDelete } from "../../api/comment";
 import { Delete } from "lucide-react";
 type CommentDeleteProps = {
   commentId: string;
-
+  onDelete : (commentId:string) => void
 };
 
-const CommentDelete = ({ commentId, }: CommentDeleteProps) => {
+const CommentDelete = ({ commentId, onDelete }: CommentDeleteProps) => {
   
   const [error, setError] = useState("");
  
@@ -18,7 +18,7 @@ const CommentDelete = ({ commentId, }: CommentDeleteProps) => {
 
     try {
       await commentDelete(commentId);
-      
+      onDelete(commentId)
     } catch (error) {
       console.error("Error deleting comment:", error);
       setError("Failed to delete comment. Please try again.");
