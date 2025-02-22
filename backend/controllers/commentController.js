@@ -40,12 +40,13 @@ const commentDelete = async (req, res) => {
   try{
     const {commentId} = req.params;
     const authorId = req.user.id
+    const isAdmin = req.user.role === 'ADMIN';
     const comment = await commentModel.findCommentById(commentId);
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
   }
 
-  if (comment.authorId !== authorId) {
+  if (comment.authorId !== authorId && !isAdmin) {
       return res.status(403).json({ message: "Unauthorized to delete this comment" });
   }
     await commentModel.commentDelete(commentId)
