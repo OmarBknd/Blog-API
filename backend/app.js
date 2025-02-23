@@ -31,6 +31,6 @@ app.use('/signup', signUpRouter);
 app.use('/signin', signInRouter);
 app.use('/post', postRouter);
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
     console.log('Server is running on port 3000');
 });
