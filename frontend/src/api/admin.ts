@@ -10,6 +10,23 @@ const approvePostStatus = async(postId:string, published: boolean) => {
     return response.data
 }
 
+const adminPromoteuser = async(userId:string) => {
+    const token = localStorage.getItem('token')
+    const response = await api.patch(`/admin-dashboard/users/${userId}/promote`,{}, {
+        headers: { Authorization: `Bearer ${token}` }})
+    
+    
+    return response.data
+}
+
+const adminDemoteuser = async(userId:string) => {
+    const token = localStorage.getItem('token')
+    const response = await api.patch(`/admin-dashboard/users/${userId}/demote`,{}, {
+        headers: { Authorization: `Bearer ${token}` }})
+    
+    
+    return response.data
+}
 const adminFetchUsers = async() => {
     const token = localStorage.getItem('token')
     const response = await api.get(`/admin-dashboard/users`, {
@@ -36,4 +53,4 @@ const adminfetchComments = async() => {
     
     return response.data
 }
-export {adminFetchUsers, adminfetchPosts, adminfetchComments, approvePostStatus}
+export {adminFetchUsers, adminfetchPosts, adminfetchComments, approvePostStatus, adminPromoteuser, adminDemoteuser}
