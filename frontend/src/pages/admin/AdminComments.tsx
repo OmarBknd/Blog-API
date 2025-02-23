@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { adminfetchComments } from "../../api/admin";
 import { Comment } from "../../types";
 import { format } from "date-fns";
+import CommentDelete from "../../components/comments-management/CommentDelete";
 const AdminComments = () => {
   const [comments, setComments] = useState<Comment[]>([]);
 
@@ -13,6 +14,13 @@ const AdminComments = () => {
  const handleTimeFormat = (date:string) =>{
    return format(new Date(date),` eeee dd/MM/yyyy 'at' hh:mm aaa`)
  }
+
+ const handleCommentDelete = (deletedCommentId: string) => {
+ 
+    return {   comments: comments.filter((c) => c.id !== deletedCommentId),
+    };
+  
+}
   
   return (
     <div className="p-6 dark:bg-gray-800">
@@ -22,6 +30,9 @@ const AdminComments = () => {
           <li key={comment.id} className="p-2 border rounded">
             {comment.content} (by {comment.author.firstName} {comment.author.lastName})
             <p> {handleTimeFormat(comment.createdAt)}</p>
+            <CommentDelete
+                    onDelete={()=>handleCommentDelete(comment.id)}
+                    commentId={comment.id} />
           </li>
         ))}
       </ul>
