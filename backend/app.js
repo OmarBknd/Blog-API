@@ -5,8 +5,12 @@ const cors = require('cors');
 const passport = require('./config/passport-jwt'); 
 require('dotenv').config();
 const port = process.env.PORT || 3000;
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
 
-app.use(cors());
+app.use(cors({
+    origin: allowedOrigins,
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
