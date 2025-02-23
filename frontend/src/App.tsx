@@ -15,14 +15,16 @@ import AdminPosts from "./pages/admin/AdminPosts"
 import AdminUsers from "./pages/admin/AdminUsers"
 import AdminProtectedRoute from "./pages/admin/AdminProtectedRoute"
 import { AuthProvider } from "./components/AuthProvider"
+import Footer from "./components/Footer"
 
 function App() {
   return (
-    <div className="dark:bg-gray-900 dark:text-white min-h-screen">
+    <div className="dark:bg-gray-900 dark:text-white min-h-screen flex flex-col ">
     
     <Router>
     <AuthProvider>
       <Navbar />
+      <main className="flex-grow">
       <Routes>
         <Route path="/" element={<Home />} />
         
@@ -43,6 +45,8 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
+      </main>
+      <Footer/>
       </AuthProvider>
     </Router>
     
