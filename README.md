@@ -4,34 +4,34 @@ A full-stack blog application where users can create, edit, and delete posts, wh
 
 🚀 Features
 
-⭐User Features
+    ⭐User Features
 
-✏ User authentication (Signup/Login)
+        ✏ User authentication (Signup/Login)
 
-✏ Create, update, and delete blog posts
+        ✏ Create, update, and delete blog posts
 
-✏ View and comment on posts
+        ✏ View and comment on posts
 
-✏ Toggle dark mode for a better reading experience
+        ✏ Toggle dark mode for a better reading experience
 
-⭐ Admin Features
+    ⭐ Admin Features
 
-✏ Manage all users, posts, and comments
+        ✏ Manage all users, posts, and comments
 
-✏ Access a dedicated admin dashboard
+        ✏ Access a dedicated admin dashboard
 
 🛠 Tech Stack
 
-⛏ Frontend:
+    ⛏ Frontend:
 
-💡 React (TypeScript) 
+        💡 React (TypeScript) 
 
-💡 Tailwind CSS 
+        💡 Tailwind CSS 
 
-💡 React Router 
+        💡 React Router 
 
-⛏ Backend:
+    ⛏ Backend:
 
-💡 Node.js + Express.js 
+        💡 Node.js + Express.js 
 
-💡 PostgreSQL
+        💡 PostgreSQL
