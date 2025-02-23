@@ -15,8 +15,8 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-950 p-4 shadow-lg">
-      <div className="max-w-6xl mx-auto flex items-center justify-between">
-        {/* Logo and Theme Toggle */}
+      <div className=" mx-auto flex items-center justify-between">
+        
         <div className="flex items-center space-x-6">
           <span
             className="text-white font-bold text-2xl cursor-pointer hover:text-indigo-400 transition"
@@ -37,7 +37,7 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Navigation Links */}
+        
         <div className="flex items-center space-x-6">
           <button
             className="text-white font-semibold text-lg hover:text-indigo-400 transition duration-300"
