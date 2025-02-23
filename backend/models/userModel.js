@@ -8,7 +8,28 @@ const firstUserIsAdmin = async() => {
     })
     return user
 }
+const superAdmin = async() => {
+    const user = await prisma.user.findFirst({
+        where:{role:'ADMIN'},
+        orderBy:{createdAt:'asc'}
+    })
+    return user
+}
+const userPromoteToAdmin = async(userId) => {
+    const user = await prisma.user.update({
+        where:{id:userId},
+        data:{role:'ADMIN'}
+    })
+    return user
+}
 
+const userDemoteFromAdmin = async(userId) => {
+    const user = await prisma.user.update({
+        where:{id:userId},
+        data:{role:'USER'}
+    })
+    return user
+}
 const userGetAll = async () => {
     const users = await prisma.user.findMany();
     console.log(users);
@@ -63,4 +84,4 @@ const userFindById = async (id) => {
 
 
 
-module.exports = {firstUserIsAdmin, userCreate, userFindByEmail, userFindById, userGetAll, userUpdatePassword};
+module.exports = {firstUserIsAdmin, superAdmin, userPromoteToAdmin, userDemoteFromAdmin, userCreate, userFindByEmail, userFindById, userGetAll, userUpdatePassword};

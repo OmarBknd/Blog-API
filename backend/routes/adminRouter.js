@@ -35,4 +35,7 @@ router.patch('/posts/:postId/status',
     passport.authenticate('jwt', {session: false}),adminAuth, 
     postController.postApprove
 )
+
+router.patch("/users/:userId/promote", passport.authenticate('jwt', {session: false}),adminAuth, profileController.userPromoteToAdmin);
+router.patch("/users/:userId/demote", passport.authenticate('jwt', {session: false}),adminAuth, profileController.userDemoteFromAdmin);
 module.exports = router;
