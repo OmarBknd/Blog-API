@@ -1,6 +1,14 @@
 const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 
+
+const firstUserIsAdmin = async() => {
+    const user  = await prisma.user.findFirst({
+        where:{role:'ADMIN'}
+    })
+    return user
+}
+
 const userGetAll = async () => {
     const users = await prisma.user.findMany();
     console.log(users);
@@ -9,14 +17,15 @@ const userGetAll = async () => {
 }
 
 
-const userCreate = async (firstName, lastName, email, password) => {
+const userCreate = async (firstName, lastName, email, password, existingAdmin) => {
 
     const user = await prisma.user.create({
         data: {
             firstName: firstName,
             lastName: lastName,
             email: email,
-            password: password
+            password: password,
+            role: existingAdmin ? "USER" : "ADMIN"
         }
     });
    return user;
@@ -54,4 +63,4 @@ const userFindById = async (id) => {
 
 
 
-module.exports = {userCreate, userFindByEmail, userFindById, userGetAll, userUpdatePassword};
+module.exports = {firstUserIsAdmin, userCreate, userFindByEmail, userFindById, userGetAll, userUpdatePassword};

@@ -11,15 +11,15 @@ const validateResults = [
 
 
 const userRegister = async (req, res) => {
-    
+    const { firstName, lastName, email, password } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
 
     try {
-        const { firstName, lastName, email, password } = req.body;
-        console.log('Received Request Body:', req.body);
+       
+       const existingAdmin = await userModel.firstUserIsAdmin()
 
        
         const existingUser = await userModel.userFindByEmail(email);
@@ -31,7 +31,7 @@ const userRegister = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
        
-        const user = await userModel.userCreate(firstName, lastName, email, hashedPassword);
+        const user = await userModel.userCreate(firstName, lastName, email, hashedPassword, existingAdmin);
         res.status(201).json({ message: 'User registered successfully', user });
 
     } catch (error) {
