@@ -1,4 +1,6 @@
 import { Editor } from "@tinymce/tinymce-react";
+const apiKey = import.meta.env.VITE_TINYMCE_SECRET_KEY;
+
 
 
 type TinymceProps ={
@@ -13,7 +15,7 @@ const Tinymce = ({ value, onChange }: TinymceProps) => {
   return (
     <div className="w-full dark:bg-gray-700 rounded-2xl">
       <Editor
-        apiKey="5jiijuzpwlvt73jppjtioqjvsstty8zajoz9hat046ymzplp"
+        apiKey={apiKey || 'your-api-key'}
         value={value}
         onEditorChange={(newContent) => onChange(newContent)}
         
