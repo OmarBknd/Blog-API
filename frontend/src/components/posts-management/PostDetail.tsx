@@ -9,6 +9,7 @@ import { Post, Comment } from "../../types";
 import { Edit } from "lucide-react";
 import  DOMPurify  from "dompurify";
 import { formatDistanceToNow } from "date-fns";
+import { Tooltip } from 'react-tooltip';
 
 const PostDetail = () => {
   const { postId } = useParams<{ postId: string }>();
@@ -74,11 +75,15 @@ const PostDetail = () => {
        {userId === post.author.id  && (
         <div >
           <button
+            id="edit-tooltip"
             className=" flex gap-1 cursor-pointer dark:text-white"
             onClick={() => navigate(`/post/update/${postId}`)}
           >
             <Edit/>
-            Edit Post
+            <Tooltip
+            anchorSelect="#edit-tooltip"
+            content="Edit post"
+            />
           </button>
          
         </div>

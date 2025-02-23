@@ -2,6 +2,7 @@ import { useState } from "react";
 import { commentUpdate } from "../../api/comment";
 import { Edit } from "lucide-react";
 import toast from "react-hot-toast";
+import { Tooltip } from "react-tooltip";
 type CommentUpdateProps = {
   commentId: string;
   initialContent: string;
@@ -72,10 +73,14 @@ const CommentUpdate = ({ commentId, initialContent, onUpdate }: CommentUpdatePro
       ) : (
         <button
           onClick={handleEditClick}
+          id="edit-tooltip"
           className=" text-sm flex items-center gap-1 cursor-pointer  "
         >
           <Edit className="size-4"/>
-          Edit
+          <Tooltip
+        anchorSelect="#edit-tooltip"
+        content="Edit comment"
+        />
         </button>
       )}
       

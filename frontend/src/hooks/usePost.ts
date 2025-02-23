@@ -3,7 +3,7 @@ import { Post } from "../types";
 
 export const usePost = (fetchPostsFn: () =>Promise<{ posts?: Post[]; post?: Post }>) => {
   const [posts, setPosts] = useState<Post[]>([]);
-console.log('posts from use post', posts);
+
 
   useEffect(() => {
     const fetchPosts = async () => {

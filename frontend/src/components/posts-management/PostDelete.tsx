@@ -3,6 +3,7 @@ import { postDelete } from "../../api/post";
 import { Delete } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { Tooltip } from 'react-tooltip';
 type PostDeleteProps = {
   postId: string;
  
@@ -37,11 +38,14 @@ const PostDelete = ({ postId }: PostDeleteProps) => {
       {error && <p className="text-red-500 text-sm">{error}</p>}
       <button
         onClick={handleDelete}
-        
+        id="delete-tooltip"
         className="flex gap-1 cursor-pointer dark:text-white    "
       >
         <Delete/>
-       Delete Post 
+        <Tooltip
+        anchorSelect="#delete-tooltip"
+        content="Delete post"
+        />
       </button>
     </div>
   );
