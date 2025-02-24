@@ -41,13 +41,13 @@ const Home = () => {
       )}
 
      
-      <button
+     {userId && <button
         className="bg-blue-600 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 focus:ring-2 focus:ring-blue-500 mb-6"
         onClick={() => navigate("/post/create")}
       >
          Create a New Post
       </button>
-
+        }
       
       
         <PostList />
