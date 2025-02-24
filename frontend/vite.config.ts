@@ -7,7 +7,13 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),],
+    server: {
+      port: 3000,
+      host: true
+    },
     preview: {
+      port: 8080,
+      host: true,
       allowedHosts: ["blog-omarbk.up.railway.app"]
     }
 })
