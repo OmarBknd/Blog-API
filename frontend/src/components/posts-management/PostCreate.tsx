@@ -31,7 +31,7 @@ const PostCreate = () => {
           setTimeout(() => navigate('/'), 2000);
         }),
       {
-        loading: "Deleting post...",
+        loading: "Creating post...",
         success: "Post created, wait for admin approval",
         error: "Failed to delete post.",
         
