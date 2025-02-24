@@ -7,4 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),],
+    preview: {
+      allowedHosts: ["blog-omarbk.up.railway.app"]
+    }
 })
