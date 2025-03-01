@@ -16,6 +16,7 @@ const Profile = () => {
 
   type User = { firstName: string; lastName: string };
   const [user, setUser] = useState<User | null>(null);
+  const userId = localStorage.getItem("token")
   const userRole = localStorage.getItem("userRole");
   // Fetch user posts
   const { posts: userPosts } = usePost(() => postGetByUserId(id!));
@@ -34,7 +35,13 @@ const Profile = () => {
     fetchUserData();
   }, [id]);
 
- 
+  useEffect(() => {
+    if (!userId) {
+      logout();
+      navigate("/signin"); 
+    }
+  }, [userId, logout, navigate]);
+  
 
   return (
     <div className=" dark:bg-gray-900">
@@ -94,6 +101,7 @@ const Profile = () => {
           </ul>
         ) : (
           <p className="text-white text-lg text-center">No posts yet.</p>
+          
         )}
       </div>
     </div>
