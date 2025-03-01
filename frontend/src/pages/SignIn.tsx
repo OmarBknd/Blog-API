@@ -13,8 +13,8 @@ const SignIn = () => {
   };
 
   const [formData, setFormData] = useState<User>({
-    email: "",
-    password: "",
+    email: "guest.tester@gmail.com",
+    password: "guest123",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
