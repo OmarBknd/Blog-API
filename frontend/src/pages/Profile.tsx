@@ -16,11 +16,14 @@ const Profile = () => {
 
   type User = { firstName: string; lastName: string };
   const [user, setUser] = useState<User | null>(null);
-  const userId = localStorage.getItem("token")
   const userRole = localStorage.getItem("userRole");
   // Fetch user posts
   const { posts: userPosts } = usePost(() => postGetByUserId(id!));
 
+  const handleExpiredToken = () => {
+    logout()
+    navigate("/sign-in")
+  }
   // Fetch user profile
   useEffect(() => {
     if (!id) return;
@@ -30,17 +33,16 @@ const Profile = () => {
         setUser(profileData.user);
       } catch (error) {
         console.error("Error fetching profile:", error);
+        handleExpiredToken()
       }
     };
     fetchUserData();
   }, [id]);
 
-  useEffect(() => {
-    if (!userId) {
-      logout();
-      navigate("/signin"); 
-    }
-  }, [userId, logout, navigate]);
+
+  
+  
+
   
 
   return (
@@ -85,6 +87,7 @@ const Profile = () => {
      </div>
       ) : (
         <p className="text-white text-lg font-semibold">Loading user data...</p>
+        
       )}
 
       <div className=" w-full  flex flex-col items-center
@@ -102,7 +105,7 @@ const Profile = () => {
         ) : (
           <p className="text-white text-lg text-center">No posts yet.</p>
           
-        )}
+        ) }
       </div>
     </div>
   );
